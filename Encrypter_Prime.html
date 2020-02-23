@@ -1,0 +1,114 @@
+<!--
+    github.com/alieskici
+-->
+
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Encoder - Based on Prime Numbers</title>
+    <script>
+        var alp = "abcdefghijklmnopqrstuvwxyz";
+        var pri = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101];
+
+        function Encrypt() {
+            if (document.getElementById("m1").value.trim().length > 0) {
+                let a = [] = document.getElementById("m1").value.split(' ');
+                let b = 1;
+                let res = "";
+                for (let i = 0; i < a.length; i++) {
+                    b = 1;
+                    for (let j = 0; j < a[i].length; j++) {
+                        b *= pri[alp.indexOf(a[i][j])];
+                    }
+
+                    res += b.toString() + " ";
+                }
+
+                document.getElementById("m2").value = res.trim();
+            }            
+        }
+
+        function Decrypt() {
+            if (document.getElementById("m1").value.trim().length > 0) {
+                let a = [] = document.getElementById("m1").value.split(" ");
+                let b = 0;
+                let c = 0;
+                let res = "";
+                let cont = -1;
+
+                for (let i = 0; i < a.length; i++) {
+                    b = a[i];
+
+                    for (let j = 0; j < pri.length; j++) {
+                        c = parseInt(b / pri[j]);
+                        cont = -1;
+                        while (c * pri[j] == b) {
+                            b = c;
+                            res += alp[j];
+
+                            if (b == 1) {
+                                cont = 0;
+                                break;
+                            }
+                            
+                            c = parseInt(b / pri[j]);
+
+                            cont++;
+                            if (cont > pri.length * a.length) {
+                                break;
+                            }
+                        }
+                        
+                        if (b == 1) {
+                            break;
+                        }
+                    }
+
+                    res += " ";
+                }
+
+                document.getElementById("m2").value = res.trim();
+            }
+        }
+
+        function Swap() {
+            document.getElementById("m1").value = document.getElementById("m2").value;
+            document.getElementById("m2").value = "";
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <table>
+            <tr>
+                <td>Valid characters: abcdefghijklmnopqrstuvwxyz</td>
+            </tr>
+            <tr>
+                <td align="center"><input type="text" id="m1" name="m1" value="" placeholder="input text"
+                        style="width: 240px"></td>
+            </tr>
+            <tr>
+                <td align="center"><input type="button" id="e" onclick="Encrypt()" value="Encrypt"
+                        style="width: 90px; height: 30px; color: black;"><input type="button" id="s" onclick="Swap()"
+                        value="▲" style="width: 60 px; height: 30px; color: black;"><input type="button" id="d"
+                        onclick="Decrypt()" value="Decrypt" style="width: 90px; height: 30px; color: black;"></td>
+            </tr>
+            <tr>
+                <td align="center"><input type="text" id="m2" name="m2" value="" placeholder="output text"
+                        style="width: 240px;" readonly></td>
+            </tr>
+        </table>
+    </form>
+
+    <div style="font-size: 14px;">You should guess mean of scrambled words in output for this encryption type.</div>
+    <br><a href="https://github.com/alieskici">github.com/alieskici</a>
+    
+</body>
+</html>
